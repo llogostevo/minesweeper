@@ -1,13 +1,13 @@
-let generatePlayerBoard = (numberOfRows, numberOfColumns) => {
+const generatePlayerBoard = (numberOfRows, numberOfColumns) => {
 
   let board = [];
 
   for (let i = 0; i < numberOfRows; i++) {
     let row = [];
 
-    for (let j = 0; j < numberOfColumns; i++) {
+    for (let j = 0; j < numberOfColumns; j++) {
       row.push(' ');
-      console.log(board[i][j].join(' | '));
+      
     };
 
     board.push(row);
@@ -22,9 +22,9 @@ const generateBombBoard = (numberOfRows, numberOfColumns, numberOfBombs) => {
     for (let i = 0; i < numberOfRows; i++) {
       let row = [];
 
-      for (let j = 0; j < numberOfColumns; i++) {
+      for (let j = 0; j < numberOfColumns; j++) {
         row.push(null);
-        console.log(board[i][j].join(' | '));
+
       };
 
       board.push(row);
@@ -35,11 +35,24 @@ const generateBombBoard = (numberOfRows, numberOfColumns, numberOfBombs) => {
       let randomRowIndex = Math.floor(Math.random()*numberOfRows);
       let randomColumnIndex = Math.floor(Math.random()*numberOfColumns);
       board[randomRowIndex][randomColumnIndex] = 'B';
-    }
+
+      numberOfBombsPlaced++;
+
+      // An important note: The code in your while loop has
+      // the potential to place bombs on top of already existing bombs.
+      // This will be fixed when you learn about control flow.
+    };
     return board;
   };
+
+let printBoard = (board) => {
+  console.log(board.map(row => row.join(' | ')).join('\n'));
 };
 
-// On the next line, we'll have to increment the bomb counter. If you don't do this, then the counter will stay set to 0 and the while loop will run forever.
+console.log('Player Board:');
+let playerBoard = generatePlayerBoard(3, 4);
+printBoard(playerBoard);
 
-// Use the increment operator to increment numberOfBombsPlaced
+console.log('Bomb Board:');
+let bombBoard = generateBombBoard(3, 4, 5);
+printBoard(bombBoard);
