@@ -1,15 +1,18 @@
+//makes a function constant
 const generatePlayerBoard = (numberOfRows, numberOfColumns) => {
 
+//create an empty board variable
   let board = [];
 
+// creates a variable for a row for each number of rows declared in function call
   for (let i = 0; i < numberOfRows; i++) {
     let row = [];
-
+// creates the row with empty characters as it is the empty board
     for (let j = 0; j < numberOfColumns; j++) {
       row.push(' ');
-      
-    };
 
+    };
+// pushes the whole row onto the main board within a row
     board.push(row);
   };
   return board;
@@ -31,20 +34,26 @@ const generateBombBoard = (numberOfRows, numberOfColumns, numberOfBombs) => {
     };
     let numberOfBombsPlaced = 0
 
+// while loop to check that bombs placed is less than the actual number of bombs
     while (numberOfBombsPlaced < numberOfBombs) {
+      // puts a bomb in a random row
       let randomRowIndex = Math.floor(Math.random()*numberOfRows);
+      // selects a random column
       let randomColumnIndex = Math.floor(Math.random()*numberOfColumns);
+      // adds in the value B for bomb in the row/column
       board[randomRowIndex][randomColumnIndex] = 'B';
-
+      // increments the number of bombs to end the loop
       numberOfBombsPlaced++;
 
       // An important note: The code in your while loop has
       // the potential to place bombs on top of already existing bombs.
       // This will be fixed when you learn about control flow.
     };
+    // retrun the array to be used later
     return board;
   };
 
+// setup a varibale for the board
 let printBoard = (board) => {
   console.log(board.map(row => row.join(' | ')).join('\n'));
 };
