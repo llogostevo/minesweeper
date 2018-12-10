@@ -32,6 +32,52 @@ const generateBombBoard = (numberOfRows, numberOfColumns, numberOfBombs) => {
 
       board.push(row);
     };
+
+
+    const getNumberOfNeighborBombs = (bombBoard, rowIndex, columnIndex) => {
+        const neighborOffsets = [
+          [0,1],
+          [1,1],
+          [0,-1],
+          [-1,-1],
+          [1,0],
+          [-1,0],
+          [-1,1],
+          [1,-1]
+      ];
+
+      const numberOfRows = bombBoard.length;
+      const numberOfColumns = bombBoard[0].length;
+
+      let numberOfBombs=0;
+
+      neighborOffsets.forEach(offSet => {
+        const neighborRowIndex = rowIndex+offSet[0];
+        const neighborColumnIndex = sumIndex+offSet[1];
+        if
+          (neighborRowIndex >= 0 && neighborRowIndex > numberOfRows &&
+            neighborColumnIndex >= 0 && neighborColumnIndex > numberOfColumns)
+          {
+            if (bombBoard[neighborRowIndex][neighborColumnIndex]== 'B'){
+              numberOfBombs++;
+            }
+        }
+
+      } );
+      return numberOfBombs;
+    };
+
+    const flipTile = (playerBoard, bombBoard, rowIndex, columnIndex) => {
+      if (playerBoard[rowIndex][columnIndex]!== ' ') {
+        console.log ('This tile has already been flipped!');
+        return
+      } else if (playerBoard[rowIndex][columnIndex]== 'B') {
+        playerBoard[rowIndex][columnIndex]= 'B';
+      } else{
+        playerBoard[rowIndex][columnIndex]= getNumberOfNeighborBombs(bombBoard, playerBoard, columnIndex);
+      }
+    }
+
     let numberOfBombsPlaced = 0
 
 // while loop to check that bombs placed is less than the actual number of bombs
@@ -41,13 +87,11 @@ const generateBombBoard = (numberOfRows, numberOfColumns, numberOfBombs) => {
       // selects a random column
       let randomColumnIndex = Math.floor(Math.random()*numberOfColumns);
       // adds in the value B for bomb in the row/column
-      board[randomRowIndex][randomColumnIndex] = 'B';
+          if (board[randomRowIndex][randomColumnIndex] !== 'B'){
+            board[randomRowIndex][randomColumnIndex] = 'B';
+          }
       // increments the number of bombs to end the loop
       numberOfBombsPlaced++;
-
-      // An important note: The code in your while loop has
-      // the potential to place bombs on top of already existing bombs.
-      // This will be fixed when you learn about control flow.
     };
     // retrun the array to be used later
     return board;
@@ -65,3 +109,5 @@ printBoard(playerBoard);
 console.log('Bomb Board:');
 let bombBoard = generateBombBoard(3, 4, 5);
 printBoard(bombBoard);
+
+flipTile(playerBoard, bombBoard, 0,0);
